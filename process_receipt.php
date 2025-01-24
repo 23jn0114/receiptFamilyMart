@@ -101,11 +101,11 @@ function generateCSV($results) {
 }
 // データベースに接続する関数
 function saveToDatabase($results) {
-    $serverName = "<your-server-name>";
+    $serverName = "receipt-familymart-db.database.windows.net";
     $connectionOptions = [
-        "Database" => "<your-database-name>",
-        "Uid" => "<your-username>",
-        "PWD" => "<your-password>"
+        "Database" => "receiptFamilyMartDB",
+        "Uid" => "jn230114",
+        "PWD" => "Pa$$word1234"
     ];
     
     $conn = sqlsrv_connect($serverName, $connectionOptions);
