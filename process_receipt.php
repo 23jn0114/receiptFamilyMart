@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['receipt'])) {
     displayResults($results);
     // CSVファイルの生成とダウンロードリンクの表示
     generateCSV($results);
+    // 結果をデータベースに保存
+    saveToDatabase($results);
 }
 
 // Azure AI Vision OCRを実行する関数
@@ -97,4 +99,30 @@ function generateCSV($results) {
     fclose($fp);
     echo '<a href="' . $csvFile . '" download>CSVファイルをダウンロード</a>';
 }
+// データベースに接続する関数
+function saveToDatabase($results) {
+    $serverName = "<your-server-name>";
+    $connectionOptions = [
+        "Database" => "<your-database-name>",
+        "Uid" => "<your-username>",
+        "PWD" => "<your-password>"
+    ];
+    
+    $conn = sqlsrv_connect($serverName, $connectionOptions);
+    if ($conn === false) {
+        die(print_r(sqlsrv_errors(), true));
+    }
+    
+    foreach ($results as $result) {
+        foreach ($result['items'] as $item) {
+            $sql = "INSERT INTO ocr_results (item_name, price, total) VALUES (?, ?, ?)";
+            $params = [$item['name'], $item['price'], $result['total']];
+            sqlsrv_query($conn, $sql, $params);
+        }
+    }
+    
+    sqlsrv_close($conn);
+}
+
+
 ?>
