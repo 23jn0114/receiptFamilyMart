@@ -28,11 +28,11 @@
                         var base64File = e.target.result.split(',')[1];
 
                         $.ajax({
-                            url: '{endpoint}/documentintelligence/documentModels/{modelId}:analyze?api-version=2024-11-30',
+                            url: `${endpoint}/documentintelligence/documentModels/${modelId}:analyze?api-version=2024-11-30`,
                             type: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Ocp-Apim-Subscription-Key': '{key}'
+                                'Ocp-Apim-Subscription-Key': key
                             },
                             data: JSON.stringify({
                                 base64Source: base64File
@@ -51,13 +51,29 @@
                     reader.readAsDataURL(file);
                 }
             });
-
+            function convertFileToBase64() {
+              const fileInput = document.getElementById('fileInput');
+              const file = fileInput.files[0]; // ファイルを取得
+  
+              if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                      const base64String = e.target.result.split(',')[1]; // Base64エンコードされた文字列を取得
+                      console.log(base64String); // コンソールに出力
+                      return base64String;
+                  };
+                  reader.readAsDataURL(file); // ファイルをBase64に変換
+              } else {
+                  console.log("ファイルが選択されていません");
+              }
+          }
+          
             function fetchResults(operationLocation) {
                 $.ajax({
                     url: operationLocation,
                     type: 'GET',
                     headers: {
-                        'Ocp-Apim-Subscription-Key': '{key}'
+                        'Ocp-Apim-Subscription-Key': key
                     },
                     success: function (data) {
                         console.log('Results:', data);
