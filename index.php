@@ -7,7 +7,7 @@
   </head>
   <body>
       <h1>レシートアップロードフォーム</h1>
-      <form action="process_receipt.php" method="post" enctype="multipart/form-data">
+      <form id="uploadForm" action="" method="post" enctype="multipart/form-data">
           <label for="receipt">レシート画像を選択してください:</label>
           <input type="file" id="fileInput" name="file" accept="*/*">
         <button type="submit">Upload</button>
