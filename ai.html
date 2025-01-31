@@ -46,7 +46,7 @@
                     url: operationLocation,
                     type: 'GET',
                     headers: {
-                        'Ocp-Apim-Subscription-Key': key
+                        'Ocp-Apim-Subscription-Key': apiKey
                     },
                     success: function(data) {
                         $('#result').append('<br>GETリクエスト成功: <pre>' + data + '</pre>');
