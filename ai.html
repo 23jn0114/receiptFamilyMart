@@ -28,10 +28,9 @@
                 success: function(response, status, xhr) {
                     const operationLocation = xhr.getResponseHeader('Operation-Location');
                     if (operationLocation) {
-                        const resultID = operationLocation.split('/').pop();
                         // Wait for a few seconds before fetching the result
                         setTimeout(function() {
-                            getResult(resultID);
+                            getAnalysisResult(operationLocation);
                         }, 5000); // Adjust the delay as needed
                     } else {
                         $('#response').text('Operation-Location header not found.');
