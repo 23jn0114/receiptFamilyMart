@@ -3,6 +3,7 @@
   <head>
       <meta charset="UTF-8">
       <title>レシートアップロードフォーム</title>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
       <h1>レシートアップロードフォーム</h1>
