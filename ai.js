@@ -1,70 +1,38 @@
-/*
-  This code sample shows Prebuilt Receipt operations with the Azure AI Document Intelligence client library. 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>curl to jQuery AJAX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>API Response</h1>
+    <pre id="response"></pre>
 
-  To learn more, please visit the documentation - Quickstart: Document Intelligence (formerly Form Recognizer) SDKs
-  https://learn.microsoft.com/azure/ai-services/document-intelligence/quickstarts/get-started-sdks-rest-api?pivots=programming-language-javascript
-*/
+    <script>
+        $(document).ready(function() {
+            const endpoint = "https://receiptfamilymart.cognitiveservices.azure.com/";
+            const modelId = "prebuilt-receipt";
+            const apiKey = "3TTIp6OuzzVMRsuNduo9XPcyM4qD4DcPqVfQTrkUZmoVzB8TxDyfJQQJ99BAACi0881XJ3w3AAALACOGkl43";
+            const documentUrl = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png";
 
-const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
-{ getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
-
-/*
-  Remember to remove the key from your code when you're done, and never post it publicly. For production, use
-  secure methods to store and access your credentials. For more information, see 
-  https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-security?tabs=command-line%2Ccsharp#environment-variables-and-application-configuration
-*/
-const key = "YOUR_FORM_RECOGNIZER_KEY";
-const endpoint = "YOUR_FORM_RECOGNIZER_ENDPOINT";
- 
-// sample document
-const receiptURL = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
-
-async function main() {
-
-const client = DocumentIntelligence(endpoint, {key:key});
-const initialResponse = await client
-    .path("/documentModels/{modelId}:analyze", "prebuilt-receipt")
-    .post({
-        contentType: "application/json",
-        body: {
-            urlSource: receiptURL
-        },
-    });
-
-    if (isUnexpected(initialResponse)) {
-    throw initialResponse.body.error;
-}
-
-    const poller = getLongRunningPoller(client, initialResponse);
-    const analyzeResult = (await poller.pollUntilDone()).body.analyzeResult;
-
-    const documents = analyzeResult?.documents;
-    const result = documents && documents[0];
- 
-   if (result) {
-    const MerchantName = result.fields.MerchantName
-    const Items = result.fields.Items
-    const Total = result.fields.Total
-    console.log("=== Receipt Information ===");
-    console.log("Type:", result.docType);
-    console.log("Merchant:", MerchantName && MerchantName.valueString);
-
-    console.log("Items:");
-    for (const { valueObject: item } of (Items && Items.valueArray) || []) {
-      const Description = item.Description;
-      const TotalPrice = item.TotalPrice;
-
-      console.log("- Description:", Description && Description.valueString);
-      console.log("  Total Price:", TotalPrice && TotalPrice.valueCurrency.amount);
-    }
-
-    console.log("Total:", Total && Total.valueCurrency.amount);
-  } else {
-    throw new Error("Expected at least one receipt in the result.");
-  }
-   
- }
- 
- main().catch((err) => {
-   console.error("The sample encountered an error:", err);
- });
+            $.ajax({
+                url: `${endpoint}/documentintelligence/documentModels/${modelId}:analyze?api-version=2024-11-30`,
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Ocp-Apim-Subscription-Key': apiKey
+                },
+                data: JSON.stringify({ 'urlSource': documentUrl }),
+                success: function(response) {
+                    $('#response').text(response));
+                },
+                error: function(xhr, status, error) {
+                    $('#response').text(`Error: ${xhr.status} ${xhr.statusText}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
