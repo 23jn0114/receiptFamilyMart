@@ -26,7 +26,7 @@
                 },
                 data: JSON.stringify({ 'urlSource': documentUrl }),
                 success: function(response) {
-                    $('#response').text(response));
+                    $('#response').text(response);
                 },
                 error: function(xhr, status, error) {
                     $('#response').text(`Error: ${xhr.status} ${xhr.statusText}`);
