@@ -72,6 +72,16 @@
                                 let results = getData(data);
                                 console.log(results);
                                 console.log(JSON.stringify(results))
+                                var form = $('<form>', {
+                                    action: 'post_receipt.php',
+                                    method: 'post'
+                                }).append($('<input>', {
+                                    type: 'hidden',
+                                    name: 'json',
+                                    value: JSON.stringify(results)
+                                }));
+                                $('body').append(form);
+                                form.submit();
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
