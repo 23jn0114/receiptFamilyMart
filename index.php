@@ -73,7 +73,7 @@
                                 console.log(results);
                                 console.log(JSON.stringify(results))
                                 var form = $('<form>', {
-                                    action: './post_receipt.php',
+                                    action: './push_Data.php',
                                     method: 'post'
                                 }).append($('<input>', {
                                     type: 'hidden',
