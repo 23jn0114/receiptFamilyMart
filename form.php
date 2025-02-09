@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fwrite($log_file, json_encode($log, JSON_PRETTY_PRINT));
         fclose($log_file);
 
-        $pdo = new PDO("sqlsrv:server = tcp:receipt-familymart-db.database.windows.net,1433; Database = receiptFamilyMartDB", "jn230114", "Pa$$word123");
+        $pdo = new PDO("sqlsrv:server = tcp:receipt-familymart-db.database.windows.net,1433; Database = receiptFamilyMartDB", "jn230114", "Pa\$\$word123");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $csv_data = [];
