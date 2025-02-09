@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Save log data to ocr.log file
         $log_file = fopen('ocr.log', 'w');
-        fwrite($log_file, json_encode($log, JSON_PRETTY_PRINT));
+        fwrite($log_file, json_encode($log, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         fclose($log_file);
 
         $pdo = new PDO("sqlsrv:server = tcp:receipt-familymart-db.database.windows.net,1433; Database = receiptFamilyMartDB", "jn230114", "Pa\$\$word1234");
