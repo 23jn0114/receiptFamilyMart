@@ -1,7 +1,7 @@
 <?php
 
 try {
-    $conn = new PDO("sqlsrv:server = tcp:receipt-familymart-db.database.windows.net,1433; Database = receiptFamilyMartDB", "jn230114", "Pa\$\$word1234");
+    $conn = new PDO("sqlsrv:server = tcp:receipt-familymart-db.database.windows.net,1433; Database = receiptFamilyMartDB", "jn230114", "Pa$$word1234");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $stmt = $conn->query("SELECT * FROM Receipt");
