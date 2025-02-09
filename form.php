@@ -2,9 +2,9 @@
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     // 受信したJSON文字列
     $post_data = json_decode($_POST['json'], true);
-    foreach($json_data as $i => $json_data) {
+    foreach($post_data as $i => $json_data) {
         // JSON文字列をPHPの配列に変換
-        $data = $json_data[0];
+        $data = $json_data;
         
         // 各キーに対応する変数にデータを格納
         $MerchantName = $data['MerchantName'];
