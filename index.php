@@ -125,7 +125,11 @@
                     return results;
                 }
                 function displayResults(results) {
-                    let table = '<table border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>価格</th><th>合計</th></tr>';
+                    let table = $('#resultsTable');
+                    if (table.length === 0) {
+                        table = $('<table id="resultsTable" border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>価格</th><th>合計</th></tr></table>');
+                        $('body').append(table);
+                    }
                     results.forEach(data => {
                         const MerchantName = data.MerchantName;
                         const MerchantAddress = data.MerchantAddress;
@@ -136,24 +140,23 @@
                         const rowspan = Items.length;
 
                         Items.forEach((item, index) => {
-                            table += '<tr>';
+                            let row = '<tr>';
                             if (index === 0) {
-                                table += `<td rowspan="${rowspan}">${MerchantName}</td>`;
-                                table += `<td rowspan="${rowspan}">${MerchantAddress}</td>`;
-                                table += `<td rowspan="${rowspan}">${MerchantPhoneNumber}</td>`;
-                                table += `<td rowspan="${rowspan}">${TransactionDate}</td>`;
-                                table += `<td rowspan="${rowspan}">${TransactionTime}</td>`;
+                                row += `<td rowspan="${rowspan}">${MerchantName}</td>`;
+                                row += `<td rowspan="${rowspan}">${MerchantAddress}</td>`;
+                                row += `<td rowspan="${rowspan}">${MerchantPhoneNumber}</td>`;
+                                row += `<td rowspan="${rowspan}">${TransactionDate}</td>`;
+                                row += `<td rowspan="${rowspan}">${TransactionTime}</td>`;
                             }
-                            table += `<td>${item.name}</td>`;
-                            table += `<td>${item.price}</td>`;
+                            row += `<td>${item.name}</td>`;
+                            row += `<td>${item.price}</td>`;
                             if (index === 0) {
-                                table += `<td rowspan="${rowspan}">${data.Total}</td>`;
+                                row += `<td rowspan="${rowspan}">${data.Total}</td>`;
                             }
-                            table += '</tr>';
+                            row += '</tr>';
+                            table.append(row);
                         });
                     });
-                    table += '</table>';
-                    $('body').append(table);
                 }
             });
         </script>
