@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     // 受信したJSON文字列
-    $post_data = json_decode($_POST['json'], true)
+    $post_data = json_decode($_POST['json'], true);
     foreach($json_data as $i => $json_data) {
         // JSON文字列をPHPの配列に変換
         $data = $json_data[0];
@@ -33,5 +33,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         echo "item_name: " . $item_name . "\n";
         echo "item_price: " . $item_price . "\n";
     }
+} else {
+    echo "表示できました";
 }
 ?>
