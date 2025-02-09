@@ -27,6 +27,7 @@
         </div>
         <a href="./ocr.log">ocr.logファイルをダウンロード</a><br>
         <a href="db.php">DBの内容を見る(デバッグ用)</a><br>
+        <リ href="https://github.com/23jn0114/receiptFamilyMart">リポジトリへアクセス</a><br>
 
         <script>
             $(document).ready(function () {
