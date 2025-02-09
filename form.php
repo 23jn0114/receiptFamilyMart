@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $quantity = $item['quantity'];
                 $price = $item['price'];
 
-                $stmt = $pdo->prepare("INSERT INTO ReceiptItems (ReceiptID, Name, Quantity, Price) VALUES (?, ?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO ReceiptItems (ReceiptID, ItemName, ItemQuantity, ItemPrice) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$receipt_id, $name, $quantity, $price]);
 
                 $csv_data[] = [$MerchantName, $MerchantAddress, $MerchantPhoneNumber, $TransactionDate, $TransactionTime, $name, $quantity, $price];
