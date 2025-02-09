@@ -106,6 +106,9 @@
                         let Items = [];
                         fields.Items.valueArray.forEach(v => {
                             const body = v.valueObject;
+                            if (body.Quantity === undefined) {
+                                continue;
+                            }
                             console.log(body);
                             const itemName = body.Description.valueString;
                             const quantity = body.Quantity.valueNumber;
