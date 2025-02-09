@@ -59,5 +59,15 @@ try {
             <?php endif; ?>
         <?php endforeach; ?>
     </table>
+
+    <hr>
+    <?php
+    echo "<pre>";
+    var_dump($receipts);
+    echo "</pre>";
+    echo "<pre>";
+    var_dump($receiptItems);
+    echo "</pre>";
+    ?>
 </body>
 </html>
