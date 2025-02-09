@@ -20,13 +20,13 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
         <table border="1">
             <tr>
-                <th>Merchant Name</th>
-                <th>Merchant Address</th>
-                <th>Merchant Phone Number</th>
-                <th>Transaction Date</th>
-                <th>Transaction Time</th>
-                <th>Item Name</th>
-                <th>Item Price</th>
+                <th>取引先名</th>
+                <th>取引先の住所</th>
+                <th>取引先電話番号</th>
+                <th>取引日</th>
+                <th>取引時</th>
+                <th>商品</th>
+                <th>価格</th>
             </tr>
             <?php
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {

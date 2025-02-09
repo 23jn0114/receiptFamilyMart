@@ -12,6 +12,7 @@
             <input type="file" id="fileInput" name="file" accept="*/*" multiple>
             <button type="submit">Upload</button>
         </form>
+        <div id="loadingMessage" style="display:none;">Loading now...</div>
 
         <script>
             $(document).ready(function () {
@@ -20,6 +21,7 @@
                 const key = "3TTIp6OuzzVMRsuNduo9XPcyM4qD4DcPqVfQTrkUZmoVzB8TxDyfJQQJ99BAACi0881XJ3w3AAALACOGkl43";
                 $('#uploadForm').on('submit', function (e) {
                     e.preventDefault();
+                    $('#loadingMessage').show();
                     const files = $('#fileInput')[0].files;
                     if (files) {
                         Array.from(files).forEach(file => {
@@ -46,6 +48,7 @@
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                         console.error('Error:', errorThrown);
+                                        $('#loadingMessage').hide();
                                     }
                                 });
                             };
@@ -53,7 +56,6 @@
                         });
                     }
                 });
-                
                 
                 function fetchResults(operationLocation) {
                     $.ajax({
@@ -71,38 +73,22 @@
                             } else {
                                 let results = getData(data);
                                 console.log(results);
-                                console.log(JSON.stringify(results))
-                                var form = $('<form>', {
-                                    action: './form.php',
-                                    method: 'post'
-                                }).append($('<input>', {
-                                    type: 'hidden',
-                                    name: 'json',
-                                    value: JSON.stringify(results)
-                                }));
-                                $('body').append(form);
-                                form.submit();
+                                displayResults(results);
+                                $('#loadingMessage').hide();
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.error('Error fetching results:', errorThrown);
+                            $('#loadingMessage').hide();
                         }
                     });
                 }
                 function wait(sec) {
-
-                    // jQueryのDeferredを作成します。
                     var objDef = new $.Deferred;
-
                     setTimeout(function () {
-
-                        // sec秒後に、resolve()を実行して、Promiseを完了します。
                         objDef.resolve(sec);
-
                     }, sec*1000);
-
                     return objDef.promise();
-
                 };
                 function getData(data) {
                     const documents = data.analyzeResult.documents;
@@ -135,6 +121,34 @@
                         results.push(res);
                     });
                     return results;
+                }
+                function displayResults(results) {
+                    let table = '<table border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>価格</th></tr>';
+                    results.forEach(data => {
+                        const MerchantName = data.MerchantName;
+                        const MerchantAddress = data.MerchantAddress;
+                        const MerchantPhoneNumber = data.MerchantPhoneNumber;
+                        const TransactionDate = data.TransactionDate;
+                        const TransactionTime = data.TransactionTime;
+                        const Items = data.Items;
+                        const rowspan = Items.length;
+
+                        Items.forEach((item, index) => {
+                            table += '<tr>';
+                            if (index === 0) {
+                                table += `<td rowspan="${rowspan}">${MerchantName}</td>`;
+                                table += `<td rowspan="${rowspan}">${MerchantAddress}</td>`;
+                                table += `<td rowspan="${rowspan}">${MerchantPhoneNumber}</td>`;
+                                table += `<td rowspan="${rowspan}">${TransactionDate}</td>`;
+                                table += `<td rowspan="${rowspan}">${TransactionTime}</td>`;
+                            }
+                            table += `<td>${item.name}</td>`;
+                            table += `<td>${item.price}</td>`;
+                            table += '</tr>';
+                        });
+                    });
+                    table += '</table>';
+                    $('body').append(table);
                 }
             });
         </script>
