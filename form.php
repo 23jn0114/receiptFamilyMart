@@ -1,64 +1,37 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>curl to jQuery AJAX</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <h1>API Response</h1>
-    <pre id="response"></pre>
-
-    <script>
-        $(document).ready(function() {
-            const endpoint = "https://receiptfamilymart.cognitiveservices.azure.com";
-            const modelId = "prebuilt-receipt";
-            const apiKey = "3TTIp6OuzzVMRsuNduo9XPcyM4qD4DcPqVfQTrkUZmoVzB8TxDyfJQQJ99BAACi0881XJ3w3AAALACOGkl43";
-            const documentUrl = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png";
-
-            $.ajax({
-                url: `${endpoint}/documentintelligence/documentModels/${modelId}:analyze?api-version=2024-11-30`,
-                type: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Ocp-Apim-Subscription-Key': apiKey
-                },
-                data: JSON.stringify({ 'urlSource': documentUrl }),
-                success: function(response, status, xhr) {
-                    const operationLocation = xhr.getResponseHeader('Operation-Location');
-                    if (operationLocation) {
-                        // Wait for a few seconds before fetching the result
-                        setTimeout(function() {
-                            getAnalysisResult(operationLocation);
-                        }, 5000); // Adjust the delay as needed
-                    } else {
-                        $('#response').text('Operation-Location header not found.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $('#response').text(`Error: ${xhr.status} ${xhr.statusText}`);
-                }
-            });
-            // Function to get the result using the resultID
-            function getAnalysisResult(operationLocation) {
-                $.ajax({
-                    url: operationLocation,
-                    type: 'GET',
-                    headers: {
-                        'Ocp-Apim-Subscription-Key': apiKey
-                    },
-                    success: function(data) {
-                        $('#result').append('<br>GETリクエスト成功: <pre>' + data + '</pre>');
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        $('#result').append('<br>GETリクエスト失敗: ' + errorThrown);
-                    }
-                });
-            }
-        });
-    </script>
-    <div id="result">
-    </div>
-</body>
-</html>
+<?php
+if ($_SERVER['REQUEST_METHOD']==='POST') {
+    // 受信したJSON文字列
+    $post_data = json_decode($_POST['json'], true)
+    foreach($json_data as $i => $json_data) {
+        // JSON文字列をPHPの配列に変換
+        $data = $json_data[0];
+        
+        // 各キーに対応する変数にデータを格納
+        $MerchantName = $data['MerchantName'];
+        $MerchantAddress = $data['MerchantAddress'];
+        $MerchantAddress_Obj = $data['MerchantAddress_Obj'];
+        $MerchantPhoneNumber = $data['MerchantPhoneNumber'];
+        $TransactionDate = $data['TransactionDate'];
+        $TransactionTime = $data['TransactionTime'];
+        $Items = $data['Items'];
+        
+        // $item_name = $Items[$i]['name'];
+        // $item_price = $Items[$i]['price'];
+        
+        // 確認のために各変数を出力
+        echo "MerchantName: " . $MerchantName . "\n";
+        echo "MerchantAddress: " . $MerchantAddress . "\n";
+        echo "MerchantPhoneNumber: " . $MerchantPhoneNumber . "\n";
+        echo "TransactionDate: " . $TransactionDate . "\n";
+        echo "TransactionTime: " . $TransactionTime . "\n";
+        echo "Items: " . print_r($Items, true) . "\n";
+        echo "houseNumber: " . $houseNumber . "\n";
+        echo "city: " . $city . "\n";
+        echo "state: " . $state . "\n";
+        echo "streetAddress: " . $streetAddress . "\n";
+        echo "cityDistrict: " . $cityDistrict . "\n";
+        echo "item_name: " . $item_name . "\n";
+        echo "item_price: " . $item_price . "\n";
+    }
+}
+?>
