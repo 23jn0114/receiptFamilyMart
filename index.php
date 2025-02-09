@@ -23,6 +23,7 @@
             <?php endforeach; ?>
         </div>
         <a href="./ocr.log">ocr.logファイルをダウンロード</a>
+        <a href="db.php">DBの内容を見る(デバッグ用)</a>
 
         <script>
             $(document).ready(function () {
