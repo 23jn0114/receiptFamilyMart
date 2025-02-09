@@ -22,7 +22,7 @@
                 $fileNames = array_map('basename', $files);
             ?>
             <?php foreach ($fileNames as $fileName) : ?>
-                <a href="./ <?= $fileName ?> "><?= $fileName ?>をダウンロード</a><br>
+                <a href="./<?= $fileName ?>"><?= $fileName ?>をダウンロード</a><br>
             <?php endforeach; ?>
         </div>
         <a href="./ocr.log">ocr.logファイルをダウンロード</a><br>
