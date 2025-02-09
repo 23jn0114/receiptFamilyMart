@@ -31,13 +31,12 @@ try {
                         <th><?php echo $header; ?></th>
                     <?php endforeach; ?>
                 </tr>
-            <?php else: ?>
-                <tr>
-                    <?php foreach ($row as $column): ?>
-                        <td><?php echo $column; ?></td>
-                    <?php endforeach; ?>
-                </tr>
             <?php endif; ?>
+            <tr>
+                <?php foreach (array_values($row) as $column): ?>
+                    <td><?php echo $column; ?></td>
+                <?php endforeach; ?>
+            </tr>
         <?php endforeach; ?>
     </table>
 
@@ -50,24 +49,15 @@ try {
                         <th><?php echo $header; ?></th>
                     <?php endforeach; ?>
                 </tr>
-            <?php else: ?>
-                <tr>
-                    <?php foreach ($row as $column): ?>
-                        <td><?php echo $column; ?></td>
-                    <?php endforeach; ?>
-                </tr>
             <?php endif; ?>
+            <tr>
+                <?php foreach (array_values($row) as $column): ?>
+                    <td><?php echo $column; ?></td>
+                <?php endforeach; ?>
+            </tr>
         <?php endforeach; ?>
     </table>
 
     <hr>
-    <?php
-    echo "<pre>";
-    var_dump($receipts);
-    echo "</pre>";
-    echo "<pre>";
-    var_dump($receiptItems);
-    echo "</pre>";
-    ?>
 </body>
 </html>
