@@ -113,7 +113,7 @@
                         const MerchantName = fields.MerchantName.valueString;
                         let MerchantAddress = "";
                         let MerchantAddress_Obj = {};
-                        if (fields.MerchantAddress === undefined) {
+                        if (fields.MerchantAddress !== undefined) {
                             MerchantAddress = fields.MerchantAddress.content;
                             MerchantAddress_Obj = fields.MerchantAddress.valueAddress;
                         }
