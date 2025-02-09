@@ -13,6 +13,16 @@
             <button type="submit">Upload</button>
         </form>
         <div id="loadingMessage" style="display:none;">Loading now...</div>
+        <div id="csvFiles">
+            <?php
+            $directory = __DIR__;
+            $files = array_filter(glob($directory . '/*-receipts.csv'), 'is_file');
+            $fileNames = array_map('basename', $files);
+            foreach ($fileNames as $fileName) : ?>
+                <a href="./ <?= $fileName ?> "><?= $fileName ?>をダウンロード</a><br>
+            <?php endforeach; ?>
+        </div>
+        <a href="./ocr.log">ocr.logファイルをダウンロード</a>
 
         <script>
             $(document).ready(function () {
@@ -73,6 +83,7 @@
                             } else {
                                 let results = getData(data);
                                 console.log(results);
+                                pushDB(JSON.stringify(results), JSON.stringify(data));
                                 displayResults(results);
                                 $('#loadingMessage').hide();
                             }
@@ -95,10 +106,20 @@
                     let results = []
                     documents.forEach(doc => {
                         const fields = doc.fields;
+                        if (fields.MerchantName === undefined || fields.TransactionDate === undefined || fields.TransactionTime === undefined || fields.Total === undefined || fields.Items === undefined) {
+                            return;
+                        }
                         const MerchantName = fields.MerchantName.valueString;
-                        const MerchantAddress = fields.MerchantAddress.content;
-                        const MerchantAddress_Obj = fields.MerchantAddress.valueAddress;
-                        const MerchantPhoneNumber = fields.MerchantPhoneNumber.valuePhoneNumber;
+                        let MerchantAddress = "";
+                        let MerchantAddress_Obj = {};
+                        if (fields.MerchantAddress === undefined) {
+                            MerchantAddress = fields.MerchantAddress.content;
+                            MerchantAddress_Obj = fields.MerchantAddress.valueAddress;
+                        }
+                        let MerchantPhoneNumber = "";
+                        if (fields.MerchantPhoneNumber.valuePhoneNumber !== undefined) {
+                            MerchantPhoneNumber = fields.MerchantPhoneNumber.valuePhoneNumber;
+                        }
                         const TransactionDate = fields.TransactionDate.valueDate;
                         const TransactionTime = fields.TransactionTime.valueTime;
                         const Total = fields.Total.valueCurrency.amount;
@@ -108,7 +129,7 @@
                             const body = v.valueObject;
                             console.log(body);
                             const itemName = body.Description.valueString;
-                            var quantity = 1;
+                            let quantity = 1;
                             if (body.Quantity !== undefined) {
                                 quantity = body.Quantity.valueNumber;
                             }
@@ -163,6 +184,25 @@
                             table.append(row);
                         });
                     });
+                }
+                function pushDB(json, log) {
+                    $.ajax({
+                        url: "form.php",
+                        type: "POST",
+                        data: {json: json, log: log},
+                        success: function (data) {
+                            console.log(data);
+                            if (data.status === 'success') {
+                                console.log(data.message);
+                                $('<a>', {
+                                    href: data.csv,
+                                    text: data.csv + 'をダウンロード',
+                                }).appendTo('body');
+                            } else {
+                                alert(data.status + ": " + data.message);
+                            }
+                        },
+                    })
                 }
             });
         </script>
