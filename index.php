@@ -107,8 +107,9 @@
                         fields.Items.valueArray.forEach(v => {
                             const body = v.valueObject;
                             const itemName = body.Description.valueString;
+                            const quantity = body.Quantity.valueNumber;
                             const price = body.TotalPrice.valueCurrency.amount
-                            Items.push({name: itemName, price: price});
+                            Items.push({name: itemName, quantity: quantity, price: price});
                         });
                         const res = {
                             MerchantName: MerchantName,
@@ -127,7 +128,7 @@
                 function displayResults(results) {
                     let table = $('#resultsTable');
                     if (table.length === 0) {
-                        table = $('<table id="resultsTable" border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>価格</th><th>合計</th></tr></table>');
+                        table = $('<table id="resultsTable" border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>個数</th><th>価格</th><th>合計</th></tr></table>');
                         $('body').append(table);
                     }
                     results.forEach(data => {
@@ -149,6 +150,7 @@
                                 row += `<td rowspan="${rowspan}">${TransactionTime}</td>`;
                             }
                             row += `<td>${item.name}</td>`;
+                            row += `<td>${item.quantity}</td>`;
                             row += `<td>${item.price}</td>`;
                             if (index === 0) {
                                 row += `<td rowspan="${rowspan}">${data.Total}</td>`;
