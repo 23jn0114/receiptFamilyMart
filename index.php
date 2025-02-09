@@ -107,7 +107,7 @@
                         fields.Items.valueArray.forEach(v => {
                             const body = v.valueObject;
                             if (body.Quantity === undefined) {
-                                continue;
+                                return;
                             }
                             console.log(body);
                             const itemName = body.Description.valueString;
