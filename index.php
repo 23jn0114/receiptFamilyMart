@@ -101,6 +101,7 @@
                         const MerchantPhoneNumber = fields.MerchantPhoneNumber.valuePhoneNumber;
                         const TransactionDate = fields.TransactionDate.valueDate;
                         const TransactionTime = fields.TransactionTime.valueTime;
+                        const Total = fields.Total.valueCurrency.amount;
                         
                         let Items = [];
                         fields.Items.valueArray.forEach(v => {
@@ -117,13 +118,14 @@
                             TransactionDate: TransactionDate,
                             TransactionTime: TransactionTime,
                             Items: Items,
+                            Total: Total,
                         };
                         results.push(res);
                     });
                     return results;
                 }
                 function displayResults(results) {
-                    let table = '<table border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>価格</th></tr>';
+                    let table = '<table border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>価格</th><th>合計</th></tr>';
                     results.forEach(data => {
                         const MerchantName = data.MerchantName;
                         const MerchantAddress = data.MerchantAddress;
@@ -144,6 +146,9 @@
                             }
                             table += `<td>${item.name}</td>`;
                             table += `<td>${item.price}</td>`;
+                            if (index === 0) {
+                                table += `<td rowspan="${rowspan}">${data.Total}</td>`;
+                            }
                             table += '</tr>';
                         });
                     });
