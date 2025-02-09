@@ -22,8 +22,8 @@
                 <a href="./ <?= $fileName ?> "><?= $fileName ?>をダウンロード</a><br>
             <?php endforeach; ?>
         </div>
-        <a href="./ocr.log">ocr.logファイルをダウンロード</a>
-        <a href="db.php">DBの内容を見る(デバッグ用)</a>
+        <a href="./ocr.log">ocr.logファイルをダウンロード</a><br>
+        <a href="db.php">DBの内容を見る(デバッグ用)</a><br>
 
         <script>
             $(document).ready(function () {
