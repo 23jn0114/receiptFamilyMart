@@ -202,6 +202,7 @@
                                     href: data.csv,
                                     text: data.csv + 'をダウンロード',
                                 }).appendTo('#csvFiles');
+                                $('<br>').appendTo('#csvFiles');
                             } else {
                                 alert(data.status + ": " + data.message);
                             }
