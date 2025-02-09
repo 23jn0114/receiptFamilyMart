@@ -13,12 +13,15 @@
             <button type="submit">Upload</button>
         </form>
         <div id="loadingMessage" style="display:none;">Loading now...</div>
+        <div id="tableView">
+        </div>
         <div id="csvFiles">
             <?php
-            $directory = __DIR__;
-            $files = array_filter(glob($directory . '/*-receipts.csv'), 'is_file');
-            $fileNames = array_map('basename', $files);
-            foreach ($fileNames as $fileName) : ?>
+                $directory = __DIR__;
+                $files = array_filter(glob($directory . '/*-receipts.csv'), 'is_file');
+                $fileNames = array_map('basename', $files);
+            ?>
+            <?php foreach ($fileNames as $fileName) : ?>
                 <a href="./ <?= $fileName ?> "><?= $fileName ?>をダウンロード</a><br>
             <?php endforeach; ?>
         </div>
@@ -155,7 +158,7 @@
                     let table = $('#resultsTable');
                     if (table.length === 0) {
                         table = $('<table id="resultsTable" border="1"><tr><th>取引先名</th><th>取引先の住所</th><th>取引先電話番号</th><th>取引日</th><th>取引時</th><th>商品</th><th>個数</th><th>価格</th><th>合計</th></tr></table>');
-                        $('body').append(table);
+                        $('#tableView').append(table);
                     }
                     results.forEach(data => {
                         const MerchantName = data.MerchantName;
@@ -198,7 +201,7 @@
                                 $('<a>', {
                                     href: data.csv,
                                     text: data.csv + 'をダウンロード',
-                                }).appendTo('body');
+                                }).appendTo('#csvFiles');
                             } else {
                                 alert(data.status + ": " + data.message);
                             }
