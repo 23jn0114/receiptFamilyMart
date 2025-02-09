@@ -106,13 +106,13 @@
                         let Items = [];
                         fields.Items.valueArray.forEach(v => {
                             const body = v.valueObject;
-                            if (body.Quantity === undefined) {
-                                return;
-                            }
                             console.log(body);
                             const itemName = body.Description.valueString;
-                            const quantity = body.Quantity.valueNumber;
-                            const price = body.TotalPrice.valueCurrency.amount
+                            var quantity = 1;
+                            if (body.Quantity !== undefined) {
+                                quantity = body.Quantity.valueNumber;
+                            }
+                            const price = body.TotalPrice.valueCurrency.amount;
                             Items.push({name: itemName, quantity: quantity, price: price});
                         });
                         const res = {
